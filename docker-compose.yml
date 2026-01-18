@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: saas-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: saas
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - saas-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: saas-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - NODE_ENV=production
+      - PORT=${PORT:-5000}
+      - MONGODB_URI=${MONGODB_URI:-mongodb://mongodb:27017/saas}
+      # Environment variables from .env file will be loaded automatically
+      # You can also override them here if needed
+    depends_on:
+      - mongodb
+    networks:
+      - saas-network
+    volumes:
+      - ./backend/logs:/app/logs
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  saas-network:
+    driver: bridge
+

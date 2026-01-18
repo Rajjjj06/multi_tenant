@@ -1,0 +1,30 @@
+# Root level ignores
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules (should be in subdirectories, but just in case)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
