@@ -28,6 +28,8 @@ app.use('/api/task', taskRoutes);
 
 connectDB();
 
+console.log("Server is running ");
+
 
 
 export default app;
